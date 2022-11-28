@@ -1,6 +1,5 @@
 // JavaScript Document
 
-
 $(document).ready(function() {
 	//Preloader
 	preloaderFadeOutTime = 500;
