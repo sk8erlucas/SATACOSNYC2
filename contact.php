@@ -1,47 +1,40 @@
 <?php
- 
-if($_POST) {
-    $visitor_name = "";
-    $visitor_email = "";
-    $visitor_message = "";
-     
-    if(isset($_POST['visitor_name'])) {
-      $visitor_name = filter_var($_POST['visitor_name'], FILTER_SANITIZE_STRING);
-    }
-     
-    if(isset($_POST['visitor_email'])) {
-        $visitor_email = str_replace(array("\r", "\n", "%0a", "%0d"), '', $_POST['visitor_email']);
-        $visitor_email = filter_var($visitor_email, FILTER_VALIDATE_EMAIL);
-    }
-     
-    
-     
-    if(isset($_POST['visitor_message'])) {
-        $visitor_message = "You have a new contact in your website"."\r\n".
-			"Name: ". $visitor_name . "\r\n".
-			"Mail: ". $visitor_email . "\r\n".
-			"Message: ". htmlspecialchars($_POST['visitor_message']);
-    }
-     
-    $recipient = "satacosnyc@gmail.com";
-     
-    $headers  = 'MIME-Version: 1.0' . "\r\n"
-    .'Content-type: text/html; charset=utf-8' . "\r\n"
-    .'From: ' . $visitor_email . "\r\n";
-    
-	$email_title = "You have a new contact from the website";
-    if(mail($recipient, $email_title, $visitor_message, $headers)) {
-		header("Location: https://.com/?key=email_sent_ok");
-		exit();
-    } else {
-        header("Location: https://.com/?key=email_sent_nodata");
-		exit();
 
-    }
-     
+$Nombre = $_POST['visitor_name'];
+$Email = $_POST['visitor_email'];
+$Mensaje = $_POST['visitor_message'];
+
+
+require_once('archivosformulario/class.phpmailer.php');
+$mail = new PHPMailer();
+//indico a la clase que use SMTP
+$mail->IsSMTP();
+//permite modo debug para ver mensajes de las cosas que van ocurriendo
+$mail->SMTPDebug = 1;
+//Debo de hacer autenticación SMTP
+$mail->SMTPAuth = true;
+$mail->SMTPSecure = "ssl";
+//indico el servidor de Gmail para SMTP
+$mail->Host = "smtp.gmail.com";
+//indico el puerto que usa Gmail
+$mail->Port = 465;
+//indico un usuario / clave de un usuario de gmail
+$mail->Username = "galileo.laino@gmail.com";
+$mail->Password = "rkiwoiwqhlskkiuf";
+$mail->SetFrom($Email, $Nombre);
+$mail->AddReplyTo($Email,$Nombre);
+$mail->Subject = "Envío de email usando SMTP de Gmail";
+
+//Mensaje a enviar
+$mensaje_completo = 'Tienes un nuevo contacto desde tu web enviado por ' . $Nombre . '\nDireccion E-mail: ' . $Email . '\nSu mensaje: ' . $Mensaje;
+
+$mail->MsgHTML($mensaje_completo);
+//indico destinatario
+$address = "galileo.laino@gmail.com";
+$mail->AddAddress($address, "Lucas Laino");
+if(!$mail->Send()) {
+echo "Error al enviar: " . $mail->ErrorInfo;
 } else {
-    header("Location: https://.com/?key=email_sent_error");
-	exit();
+echo "Mensaje enviado!";
 }
- 
-?>
+?
