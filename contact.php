@@ -2,7 +2,7 @@
 
 $Nombre = $_POST['visitor_name'];
 $Email = $_POST['visitor_email'];
-$Mensaje = $_POST['visitor_message'];
+$Mensaje = "Nueva reserva";
 
 
 require_once('archivosformulario/class.phpmailer.php');
@@ -23,18 +23,18 @@ $mail->Username = "galileo.laino@gmail.com";
 $mail->Password = "rkiwoiwqhlskkiuf";
 $mail->SetFrom($Email, $Nombre);
 $mail->AddReplyTo($Email,$Nombre);
-$mail->Subject = "Envío de email usando SMTP de Gmail";
+$mail->Subject = "Tienes una nueva reserva";
 
 //Mensaje a enviar
 $mensaje_completo = 'Tienes un nuevo contacto desde tu web enviado por ' . $Nombre . '\nDireccion E-mail: ' . $Email . '\nSu mensaje: ' . $Mensaje;
 
 $mail->MsgHTML($mensaje_completo);
 //indico destinatario
-$address = "galileo.laino@gmail.com";
-$mail->AddAddress($address, "Lucas Laino");
+$address = "tacosondyckman1@gmail.com";
+$mail->AddAddress($address, "Satacos");
 if(!$mail->Send()) {
 echo "Error al enviar: " . $mail->ErrorInfo;
 } else {
 echo "Mensaje enviado!";
 }
-?
+?>
