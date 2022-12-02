@@ -93,11 +93,11 @@ header .icons i
     background: transparent;
     text-align: center;
     font-size: 2rem;
-    color: #ff22c0;
+    color: #ffffff;
 }
 header .icons i:hover
 {
-    color: #fff;
+    color: #ff22c0;
     background: transparent;
 }
 header .icons #menu
@@ -123,7 +123,7 @@ header .icons #menu
 .content{
     width: 100%;
     position: absolute;
-    top: 60%;
+    top: 55%;
     transform: translateY(-50%);
     text-align: center;
     color: #fff;
